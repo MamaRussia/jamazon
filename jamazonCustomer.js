@@ -19,7 +19,7 @@ function displayItems() {
     if (err) throw err;
     for (let i = 0; i < res.length; i++) {
       console.log(
-        res[i].id + " | " + res[i].product_name + " | " + res[i].price
+        res[i].item_id + " | " + res[i].product_name + " | " + res[i].price
       );
     }
     console.log("----------------------------------");
