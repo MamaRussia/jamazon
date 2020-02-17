@@ -52,15 +52,30 @@ function productSearch() {
     inquirer.prompt({
         name: "product",
         type: "input",
-        message: "Enter the item id of the product you want to buy."
-    }).then(function (answer) {
-        let query = "SELECT item_id FROM products WHERE ?";
-        connection.query(query, { product: answer.product }, function (err, res) {
-            for (let i = 0; i < res.length; i++) {
-                console.log("Item ID: " + res[i].item_id + " || Name: " + res[i].product_name);
-                
-                
-            }
-        })
+        message: "Enter the item id of the product you want to buy. [Quit with Q]",
+        validate: function (val) {
+            return !isNaN(val) || val.toLowerCase() === "q"
+        }
+    }).then(function (val) {
+        checkQuit(val.product);
+      console.log(val.product);
+      
     })
 }
+
+function checkQuit(choice) {
+    if (choice.toLowerCase() ==="q") {
+        console.log("Goodbye!");
+        process.exit(0);
+    }
+}
+
+
+// let query = "SELECT * FROM products WHERE ?";
+// connection.query(query, { product: answer.product }, function (err, res) {
+//     for (let i = 0; i < res.length; i++) {
+//         console.log("Item ID: " + res[i].item_id + " || Name: " + res[i].product_name);
+        
+        
+//     }
+// })
