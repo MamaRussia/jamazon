@@ -58,24 +58,42 @@ function productSearch() {
         }
     }).then(function (val) {
         checkQuit(val.product);
-      console.log(val.product);
+
+        let productId = parseInt(val.product);
+        let product = checkInventory(productId, inventory);
+
+        if (product) {
+            
+        } else {
+            console.log("\nIt looks like that is not in stock.");
+            displayItems();
+        }
+      
       
     })
-}
+};
+
+
 
 function checkQuit(choice) {
     if (choice.toLowerCase() ==="q") {
         console.log("Goodbye!");
         process.exit(0);
     }
-}
+};
+
+function checkInventory(productId, inventory) {
+    for (let i = 0; i < inventory.length; i++) {
+        if (inventory[i].item_id === productId) {
+            return inventory[i]
+        }
+    }
+    return null
+};
 
 
-// let query = "SELECT * FROM products WHERE ?";
-// connection.query(query, { product: answer.product }, function (err, res) {
-//     for (let i = 0; i < res.length; i++) {
-//         console.log("Item ID: " + res[i].item_id + " || Name: " + res[i].product_name);
-        
-        
-//     }
-// })
+let query = "SELECT * FROM products WHERE ?";
+connection.query("SELECT * FROM products", function (err, res) {
+    if (err) throw err;
+
+})
