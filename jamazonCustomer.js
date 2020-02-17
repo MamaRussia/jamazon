@@ -30,7 +30,7 @@ function displayItems() {
     console.log("----------------------------------");
     // connection.end();
 
-    welcome();
+    welcome(res);
   });
 }
 
@@ -63,7 +63,7 @@ function productSearch() {
         let product = checkInventory(productId, inventory);
 
         if (product) {
-            
+            askQuantity();
         } else {
             console.log("\nIt looks like that is not in stock.");
             displayItems();
@@ -72,6 +72,28 @@ function productSearch() {
       
     })
 };
+
+function askQuantity(product) {
+    inquirer.prompt([{
+        type: "input",
+        name: "quantity",
+        message: "How many would you want? [Quit with Q]",
+        validate: function (val) {
+            return !isNaN(val) || val.toLowerCase() === "q"
+        }
+    }]).then(function (val) { 
+        checkQuit(val.quantity);
+        let quantity = parseInt(val.quantity);
+
+        if (quantity > product.stock_quantity) {
+            console.log("\nIt's sold out!");
+            displayItems();
+        } else {
+
+        }
+     })
+    
+}
 
 
 
