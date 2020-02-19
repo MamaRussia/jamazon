@@ -9,40 +9,34 @@ const mysql = require("mysql"),
   });
 
 connection.connect(function(err) {
-  if (err) {  console.error("error connecting: " + err.stack) };
+  if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
-  loadProducts();
+  displayItems();
 });
 
-function loadProducts() {
-    connection.query("SELECT * FROM products", function(err, res) {
-       
-          console.table(res);
-     ;
-    
-        welcome(res);
-      });
-};
+// function loadProducts() {
 
-// function displayItems() {
-//   connection.query("SELECT * FROM products", function(err, res) {
-//     if (err) throw err;
-//     console.log(
-//       "Welcome to Jamazon. Check Out Our Products \n" +
-//         "-----------------------------------------------------"
-//     );
-//       console.table(res);
-//     // for (let i = 0; i < res.length; i++) {
-//     //   console.log(
-//     //     res[i].item_id + " | " + res[i].product_name + " | " + res[i].price
-//     //   );
-//     // }
-  
-//     // connection.end();
+// };
 
-//     welcome();
-//   });
-// }
+function displayItems() {
+  connection.query("SELECT * FROM products", function(err, res) {
+    if (err) throw err;
+    console.log(
+      "Welcome to Jamazon. Check Out Our Products \n" +
+        "-----------------------------------------------------"
+    );
+      console.table(res);
+    // for (let i = 0; i < res.length; i++) {
+    //   console.log(
+    //     res[i].item_id + " | " + res[i].product_name + " | " + res[i].price
+    //   );
+    // }
+    console.log("----------------------------------");
+    // connection.end();
+
+    welcome(res);
+  });
+}
 
 function welcome() {
   inquirer
@@ -54,11 +48,11 @@ function welcome() {
     })
     .then(function(answer) {
         console.log("Hello " + answer.firstName);
-        promptSearch()
+        productSearch()
     });
 }
 
-function promptSearch() {
+function productSearch(inventory) {
     inquirer.prompt({
         name: "product",
         type: "input",
